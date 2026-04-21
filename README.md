@@ -5,25 +5,36 @@ becomes a key in the output object whose value is an array of row objects.
 The first row of each sheet is used as the header – its cell values become
 the property names for all subsequent rows.
 
+## Requirements
+
+- PHP 8.1 or higher
+- Composer
+
 ## Installation
 
 ```bash
-npm install xslttojson
+composer require tandrezone/xslttojson
 ```
 
-Or install globally to use the CLI:
+Or clone and install locally:
 
 ```bash
-npm install -g xslttojson
+git clone https://github.com/tandrezone/xslttojson.git
+cd xslttojson
+composer install
 ```
 
 ## Library usage
 
-```js
-const xlsxToJson = require('xslttojson');
+```php
+<?php
 
-const result = await xlsxToJson('./data.xlsx');
-console.log(JSON.stringify(result, null, 2));
+require 'vendor/autoload.php';
+
+use XlsxToJson\XlsxToJson;
+
+$result = XlsxToJson::convert('/path/to/data.xlsx');
+echo json_encode($result, JSON_PRETTY_PRINT);
 ```
 
 ### Output format
@@ -40,17 +51,17 @@ Given a workbook with two sheets:
 |             | Paris  | France  | 42        |
 |             | London | UK      | 65        |
 
-`xlsxToJson` returns:
+`XlsxToJson::convert()` returns:
 
 ```json
 {
   "Employees": [
-    { "Name": "Alice", "Department": "Engineering", "Salary": 90000 },
-    { "Name": "Bob",   "Department": "Marketing",   "Salary": 75000 }
+    { "Name": "Alice", "Department": "Engineering", "Salary": "90000" },
+    { "Name": "Bob",   "Department": "Marketing",   "Salary": "75000" }
   ],
   "Offices": [
-    { "City": "Paris",  "Country": "France", "Headcount": 42 },
-    { "City": "London", "Country": "UK",     "Headcount": 65 }
+    { "City": "Paris",  "Country": "France", "Headcount": "42" },
+    { "City": "London", "Country": "UK",     "Headcount": "65" }
   ]
 }
 ```
@@ -61,11 +72,11 @@ Given a workbook with two sheets:
 Usage: xslttojson <file> [options]
 
 Arguments:
-  file        Path to the .xlsx file to convert
+  file            Path to the .xlsx file to convert
 
 Options:
-  -o, --output  Path to write the JSON output (defaults to stdout)
-  -h, --help    Show this help message
+  -o, --output    Path to write the JSON output (defaults to stdout)
+  -h, --help      Show this help message
 ```
 
 ### Examples
@@ -73,17 +84,18 @@ Options:
 Print JSON to stdout:
 
 ```bash
-xslttojson data.xlsx
+php bin/xslttojson data.xlsx
 ```
 
 Write JSON to a file:
 
 ```bash
-xslttojson data.xlsx -o output.json
+php bin/xslttojson data.xlsx -o output.json
 ```
 
 ## Running tests
 
 ```bash
-npm test
+composer test
 ```
+

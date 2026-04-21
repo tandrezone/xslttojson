@@ -1,0 +1,68 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// Support both global (phar) and local (project) installs.
+foreach ([
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
+] as $autoload) {
+    if (file_exists($autoload)) {
+        require $autoload;
+        break;
+    }
+}
+
+use XlsxToJson\XlsxToJson;
+
+$args = array_slice($argv, 1);
+
+if (empty($args) || in_array('--help', $args, true) || in_array('-h', $args, true)) {
+    echo <<<HELP
+
+Usage: xslttojson <file> [options]
+
+Convert an XLSX file (with one or more sheets) to JSON.
+Each sheet becomes a key in the output object; its value is an array of row objects.
+
+Arguments:
+  file            Path to the .xlsx file to convert
+
+Options:
+  -o, --output    Path to write the JSON output (defaults to stdout)
+  -h, --help      Show this help message
+
+Examples:
+  xslttojson data.xlsx
+  xslttojson data.xlsx -o output.json
+
+HELP;
+    exit(empty($args) ? 1 : 0);
+}
+
+$filePath = $args[0];
+
+$outputPath = null;
+foreach (['-o', '--output'] as $flag) {
+    $idx = array_search($flag, $args, true);
+    if ($idx !== false && isset($args[$idx + 1])) {
+        $outputPath = $args[$idx + 1];
+        break;
+    }
+}
+
+try {
+    $data = XlsxToJson::convert($filePath);
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . PHP_EOL;
+
+    if ($outputPath !== null) {
+        file_put_contents($outputPath, $json);
+        echo "JSON written to {$outputPath}" . PHP_EOL;
+    } else {
+        echo $json;
+    }
+} catch (\Throwable $e) {
+    fwrite(STDERR, 'Error: ' . $e->getMessage() . PHP_EOL);
+    exit(1);
+}

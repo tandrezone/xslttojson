@@ -1,0 +1,34 @@
+{
+    "name": "tandrezone/xslttojson",
+    "description": "Convert XLSX files with multiple sheets to JSON",
+    "type": "library",
+    "require": {
+        "phpoffice/phpspreadsheet": "^2.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tandrezone",
+            "email": "tandrezone@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "XlsxToJson\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "XlsxToJson\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/xslttojson"
+    ],
+    "scripts": {
+        "test": "phpunit --testdox"
+    }
+}
