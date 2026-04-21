@@ -1,6 +1,7 @@
 {
     "name": "tandrezone/xslttojson",
     "description": "Convert XLSX files with multiple sheets to JSON",
+    "version": "1.0.0",
     "type": "library",
     "require": {
         "phpoffice/phpspreadsheet": "^2.4"
