@@ -1,0 +1,27 @@
+{
+  "name": "xslttojson",
+  "version": "1.0.0",
+  "description": "Convert XLSX files with multiple sheets to JSON",
+  "main": "index.js",
+  "bin": {
+    "xslttojson": "./bin/xslttojson.js"
+  },
+  "scripts": {
+    "test": "node test/index.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tandrezone/xslttojson.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tandrezone/xslttojson/issues"
+  },
+  "homepage": "https://github.com/tandrezone/xslttojson#readme",
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}
